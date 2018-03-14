@@ -117,7 +117,6 @@ graphPane graph =
                     [ SA.width sw, SA.height sh, SA.viewBox ("0 0 " ++ sw ++ " " ++ sh) ]
                   <|
                     viewNodes graphData.nodes
-                        ++ viewEdges graphData.edges
                 ]
             ]
         ]
@@ -169,45 +168,6 @@ viewNode node =
             , SA.textAnchor "middle"
             ]
             [ text node.value.label ]
-        ]
-
-
-viewEdges : List Edge -> List (Svg msg)
-viewEdges edges =
-    List.map viewEdge edges
-
-
-viewEdge : Edge -> Svg msg
-viewEdge edge =
-    let
-        mx =
-            toString edge.values.x
-
-        my =
-            toString edge.values.y
-
-        sx { x } =
-            toString x
-
-        sy { y } =
-            toString y
-
-        p2s p =
-            sx p ++ "," ++ sy p
-
-        pnts =
-            String.join " " <| List.map p2s edge.values.points
-    in
-    node "g"
-        []
-        [ polyline [ SA.fill "none", SA.stroke "black", SA.points pnts ] []
-        , text_
-            [ SA.x mx
-            , SA.y my
-            , SA.alignmentBaseline "central"
-            , SA.textAnchor "middle"
-            ]
-            [ text edge.values.label ]
         ]
 
 
