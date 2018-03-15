@@ -102,12 +102,21 @@ The repository is currently prepared with branches for these slices:
   * branch: `slice-view-svg-medium`
     * Look at the documentation Svg module to figure out how to render the graph data. Nodes are expected to be rectangular, and the GraphData contains information about size of image and nodes/edges.
 * View - General *tbd*
-* Parser *tbd*
+  * relevant docs:
+    * [Html](http://package.elm-lang.org/packages/elm-lang/html/latest)
+    * [Elm Bootstrap](http://package.elm-lang.org/packages/rundis/elm-bootstrap/latest)
+    * [Style Elements (alpha)](http://package.elm-lang.org/packages/mdgriffith/stylish-elephants/latest)
+    * [Elm CSS](http://package.elm-lang.org/packages/rtfeldman/elm-css/latest)
+  * branch: `slice-view-small`
+    * *tbd*
+  * branch: `slice-view-medium`
+    * Use of bootstrap has been removed. Only basic Html is there. Make things look nice for graph editor, error messages and svg graph.
 * Tests
   * branch: `slice-tests-small`
     * Here you will find a single passing test. Try to add more tests for the GraphParser module.
   * branch: `slice-tests-medium`
     * Here the project does not yet have any tests setup. Look at the documentation for [elm-test](http://package.elm-lang.org/packages/elm-community/elm-test/latest) for how to add tests to the project.
+* Parser *tbd*
 * Tasks - debounce *tbd*
 * Application structure *tbd*
 
