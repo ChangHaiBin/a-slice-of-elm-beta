@@ -38,18 +38,6 @@ update message model =
                 (Process.sleep (1 * Time.second))
             )
 
-        Graph data ->
-            let
-                graph =
-                    case decodeGraph data of
-                        Ok g ->
-                            Just g
-
-                        Err e ->
-                            Debug.log ("Decode failed" ++ e) Nothing
-            in
-            ( { model | graph = graph }, Cmd.none )
-
         Layout ->
             let
                 outstanding =
@@ -70,22 +58,14 @@ update message model =
 -- Ports
 
 
-port graphs : (Value -> msg) -> Sub msg
-
-
 port layout : String -> Cmd msg
 
 
 
--- Subscriptions
-
-
-subscriptions : Model -> Sub Msg
-subscriptions model =
-    graphs Graph
-
-
-
+{-
+   TODO: add port and message handling to receive graph data from JS
+   and turn it into GraphData value by calling decodeGraph
+-}
 -- Main
 
 
@@ -95,5 +75,5 @@ main =
         { init = init
         , view = view
         , update = update
-        , subscriptions = subscriptions
+        , subscriptions = \_ -> Sub.none
         }

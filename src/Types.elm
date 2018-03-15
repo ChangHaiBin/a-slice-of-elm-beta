@@ -1,11 +1,10 @@
 module Types exposing (..)
 
-import Json.Encode exposing (Value)
+-- import Json.Encode exposing (Value)
 
 
 type Msg
     = Edit String
-    | Graph Value
     | Layout
 
 
