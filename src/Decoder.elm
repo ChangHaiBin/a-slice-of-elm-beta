@@ -1,7 +1,7 @@
 module Decoder exposing (decodeGraph)
 
 import Json.Decode exposing (Decoder, Value, bool, decodeValue, float, int, list, string)
-import Json.Decode.Pipeline exposing (custom, decode, optional, required)
+import Json.Decode.Pipeline exposing (custom, decode, hardcoded, optional, required)
 import Types exposing (..)
 
 
@@ -10,21 +10,21 @@ decodeGraph json =
     decodeValue graphData json
 
 
+
+{-
+   TODO: replace the "hardcoded" entries in the decoding pipeline with actual decoders
+
+   Check the browsers console log to see the Json being passed to Elm
+-}
+
+
 graphData : Decoder GraphData
 graphData =
     decode GraphData
-        |> required "options" graphOptions
+        |> hardcoded (GraphOptions True False False)
         |> required "value" graphValues
-        |> required "nodes" (list node)
+        |> hardcoded []
         |> required "edges" (list edge)
-
-
-graphOptions : Decoder GraphOptions
-graphOptions =
-    decode GraphOptions
-        |> required "directed" bool
-        |> required "multigraph" bool
-        |> required "compound" bool
 
 
 graphValues : Decoder GraphValues
@@ -37,23 +37,6 @@ graphValues =
         |> required "marginy" int
         |> required "width" int
         |> required "height" int
-
-
-node : Decoder Node
-node =
-    decode Node
-        |> required "v" string
-        |> required "value" nodeValue
-
-
-nodeValue : Decoder NodeValue
-nodeValue =
-    decode NodeValue
-        |> required "label" string
-        |> required "height" int
-        |> required "width" int
-        |> required "x" float
-        |> required "y" float
 
 
 edge : Decoder Edge
