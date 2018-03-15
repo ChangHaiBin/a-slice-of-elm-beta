@@ -15,7 +15,7 @@
       var app = Elm.Main.fullscreen();
 
       app.ports.layout.subscribe((data) => {
-        //console.log(data);
+        console.log(data);
 
         var g = dagre.graphlib.json.read(JSON.parse(data));
 

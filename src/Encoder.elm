@@ -6,14 +6,58 @@ import Parser exposing (Error)
 import Types exposing (..)
 
 
+{-
+     Json that needs to be passed to the dagre.js
+     TODO: Add the encoding of "options" and "value" fields
+
+   {
+     "nodes": [
+       {
+         "v": "kspacey",
+         "value": {
+           "label": "Kevin Spacey",
+           "width": 140,
+           "height": 50
+         }
+       },
+       ...
+     ],
+     "edges": [
+       {
+         "v": "kspacey",
+         "w": "swilliams",
+         "value": {
+           "label": "worked with",
+           "width": 90,
+           "height": 10
+         }
+       },
+       ...
+     ],
+     "options": {
+       "directed": true,
+       "multigraph": false,
+       "compound": false
+     },
+     "value": {
+       "nodesep": 10,
+       "ranksep": 100,
+       "rankdir": "LR",
+       "marginx": 20,
+       "marginy": 20
+     }
+
+   }
+
+-}
+
+
 graphToJsonStr : String -> String
 graphToJsonStr str =
     encode 0 <|
         object
             [ ( "nodes", nodesJson str )
             , ( "edges", edgesJson str )
-            , ( "options", jsonOptions )
-            , ( "value", jsonGraphValues )
             ]
 
 
@@ -69,26 +113,6 @@ edgeToJson e =
 
         _ ->
             Nothing
-
-
-jsonOptions : Value
-jsonOptions =
-    object
-        [ ( "directed", bool True )
-        , ( "multigraph", bool False )
-        , ( "compound", bool False )
-        ]
-
-
-jsonGraphValues : Value
-jsonGraphValues =
-    object
-        [ ( "nodesep", int 10 )
-        , ( "ranksep", int 100 )
-        , ( "rankdir", string "LR" )
-        , ( "marginx", int 20 )
-        , ( "marginy", int 20 )
-        ]
 
 
 nodesJson : String -> Value
