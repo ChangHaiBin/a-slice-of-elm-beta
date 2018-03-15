@@ -1,9 +1,5 @@
 module View exposing (view)
 
-import Bootstrap.Form as Form
-import Bootstrap.Form.Textarea as Textarea
-import Bootstrap.Grid as Grid
-import Bootstrap.Grid.Row as Row
 import GraphParser
 import Html
 import Html.Attributes as HA
@@ -31,67 +27,17 @@ view { editor, graph } =
         hasErrors =
             List.any (\s -> s /= "") errors
     in
-    Grid.containerFluid []
-        [ Grid.row []
-            [ Grid.col []
-                [ Html.h1 []
-                    [ text "A slice of Elm "
-                    , Html.small [ HA.attribute "class" "text-muted" ] [ Html.em [] [ text "Beta" ] ]
-                    ]
-                , Html.p []
-                    [ text "Specify a graph in the left pane, and see the result in the right. The layout is calculated with the external JS library"
-                    , Html.a [ HA.href "https://github.com/dagrejs/dagre/wiki" ] [ text " dagre.js." ]
-                    ]
-                ]
+    Html.div []
+        [ Html.h1 []
+            [ text "A slice of Elm "
+            , Html.small [ HA.attribute "class" "text-muted" ] [ Html.em [] [ text "Beta" ] ]
             ]
-        , Grid.row []
-            [ Grid.col [] [ dataPane editor hasErrors ]
-            , if hasErrors then
-                Grid.col [] [ errorPane errors ]
-              else
-                Grid.col [] [ graphPane graph ]
+        , Html.p []
+            [ text "Specify a graph in the left pane, and see the result in the right. The layout is calculated with the external JS library"
+            , Html.a [ HA.href "https://github.com/dagrejs/dagre/wiki" ] [ text " dagre.js." ]
             ]
-        ]
-
-
-dataPane : String -> Bool -> Html.Html Msg
-dataPane editor hasErrors =
-    Form.form []
-        [ Form.group []
-            [ Form.label [] [ text "Graph specification:" ]
-            , Textarea.textarea
-                ([ Textarea.id "data"
-                 , Textarea.rows 20
-                 , Textarea.onInput Edit
-                 , Textarea.value editor
-                 ]
-                    ++ (if hasErrors then
-                            [ Textarea.danger ]
-                        else
-                            []
-                       )
-                )
-            ]
-        ]
-
-
-errorPane : List String -> Html.Html Msg
-errorPane errors =
-    Form.form []
-        [ Form.group []
-            [ Form.label [] [ text "Parse errors:" ]
-            , Textarea.textarea
-                [ Textarea.id "data"
-                , Textarea.rows 20
-                , Textarea.disabled
-                , Textarea.attrs
-                    [ HA.style
-                        [ ( "overflow-x", "scroll" )
-                        ]
-                    ]
-                , Textarea.value (String.join "\n" errors)
-                ]
-            ]
+        , Html.text "TODO: build the view code"
+        , graphPane graph
         ]
 
 
@@ -110,17 +56,11 @@ graphPane graph =
         sh =
             toString graphData.values.height
     in
-    Grid.container []
-        [ Grid.row [ Row.attrs [ HA.attribute "class" "py-3" ] ]
-            [ Grid.col []
-                [ svg
-                    [ SA.width sw, SA.height sh, SA.viewBox ("0 0 " ++ sw ++ " " ++ sh) ]
-                  <|
-                    viewNodes graphData.nodes
-                        ++ viewEdges graphData.edges
-                ]
-            ]
-        ]
+    svg
+        [ SA.width sw, SA.height sh, SA.viewBox ("0 0 " ++ sw ++ " " ++ sh) ]
+    <|
+        viewNodes graphData.nodes
+            ++ viewEdges graphData.edges
 
 
 viewNodes : List Node -> List (Svg msg)
